@@ -1,74 +1,213 @@
-# AI Data Analysis Agent
+# 🧠 AI Data Analysis Agent (RAG + LangGraph)
 
-`AI Data Analysis Agent` is a portfolio-grade MVP for AI Engineer, Agent Engineer, and AI Product roles. It combines deterministic dataset profiling with LLM reasoning, so the product feels useful in a real demo instead of behaving like a generic chatbot.
+A portfolio-grade AI application that transforms raw tabular data into **structured insights, grounded answers, and executive summaries** using a combination of **EDA + RAG + Agent workflow orchestration**.
 
-## Why this project is strong for recruiters
+---
 
-- Shows full-stack AI product thinking: FastAPI backend, Streamlit frontend, and OpenAI integration.
-- Uses grounded analysis: every answer is based on computed dataset statistics and schema metadata.
-- Demonstrates agent workflow design with LangGraph rather than a single prompt wrapper.
-- Solves a practical business problem: upload a CSV and get schema inspection, data quality checks, charts, Q&A, and executive summaries.
+## 🚀 Why this project stands out
 
-## MVP scope
+Unlike typical LLM demos, this project:
 
-- Upload CSV files
-- Inspect schema and inferred data types
-- Report missing values
-- Generate numeric and categorical summaries
-- Auto-build charts for key columns
-- Answer natural-language questions about the dataset
-- Generate an executive summary for non-technical users
+- ✅ Uses **deterministic data profiling (Pandas)** instead of raw text input  
+- ✅ Implements a **LangGraph-based agent workflow**, not a single prompt chain  
+- ✅ Applies **RAG (Retrieval-Augmented Generation)** to handle large datasets  
+- ✅ Enforces **grounded reasoning** (no unsupported claims)  
+- ✅ Bridges **data analysis + LLM reasoning + product experience**
 
-## Architecture
+👉 This is not a chatbot — it is a **data analysis copilot**
 
-- `FastAPI` serves the analysis API and orchestrates backend workflows.
-- `Pandas` handles deterministic profiling and aggregation.
-- `LangGraph` coordinates a grounded question-answering workflow.
-- `OpenAI` turns structured analysis context into clear answers and executive summaries.
-- `Streamlit` will provide the demo-friendly UI.
+---
 
-## Project structure
+## 🎯 Problem it solves
 
-```text
-ai-data-analysis-agent/
-├── backend/
-│   └── app/
-│       ├── api/
-│       ├── core/
-│       ├── models/
-│       ├── services/
-│       └── main.py
-├── data/
-│   ├── exports/
-│   └── uploads/
-├── frontend/
-│   └── app.py
-├── tests/
-├── .env.example
-├── .gitignore
-├── pyproject.toml
-└── README.md
-```
+Analyzing CSV datasets typically requires:
+- SQL / Pandas knowledge  
+- manual exploration  
+- interpreting charts  
 
-## Local setup
+This project enables:
 
-```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -e .
-cp .env.example .env
-uvicorn app.main:app --app-dir backend --reload
-```
+👉 Upload data → Ask questions → Get structured insights
 
-Backend docs will be available at [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs).
+---
 
-## Environment variables
+## 🏗️ System Architecture
 
-- `OPENAI_API_KEY`: required for Q&A and executive summary generation
-- `OPENAI_MODEL`: optional, defaults to `gpt-4.1-mini`
-- `DATA_DIR`: optional, defaults to `./data`
-- `APP_ENV`: optional, defaults to `development`
+### Core Components
 
-## Next step
+- **FastAPI** → Backend API & orchestration  
+- **Pandas** → Deterministic data profiling (EDA)  
+- **LangGraph** → Agent workflow coordination  
+- **OpenAI API** → Reasoning + summarization  
+- **Streamlit** → Demo UI  
 
-The backend is implemented in this iteration. The next iteration should add the Streamlit frontend, polish the user experience, and add tests.
+---
+
+### 🔁 Agent Workflow (LangGraph)
+START
+↓
+Load Dataset
+↓
+Build Profile (EDA)
+↓
+Generate Semantic Context
+↓
+Retrieve Relevant Context (RAG)
+↓
+Route Task
+├── Question Answering
+└── Executive Summary
+↓
+END
+
+---
+
+## 🧩 Key Technical Design
+
+### 1️⃣ Structured Data → Semantic Knowledge (RAG)
+
+Instead of feeding raw tables into the LLM:
+
+- Convert:
+  - numeric summaries → text insights  
+  - categorical distributions → semantic chunks  
+  - missing values → data quality signals  
+
+- Store as:
+  - embeddings  
+  - vectorized knowledge chunks  
+
+👉 Enables scalable reasoning on large datasets
+
+---
+
+### 2️⃣ Retrieval-Augmented Generation (RAG)
+
+At query time:
+
+- Embed user question  
+- Retrieve **top-k relevant data chunks**  
+- Construct **focused context window**  
+
+👉 Solves:
+- context window limitation  
+- noisy full-table input  
+- long-column reasoning issues  
+
+---
+
+### 3️⃣ Grounded Answer Generation
+
+The model is explicitly constrained:
+
+- Only answer from:
+  - schema  
+  - statistics  
+  - missing values  
+  - retrieved context  
+
+- Must return:
+
+```json
+{
+  "answer": "...",
+  "supporting_points": [...],
+  "caveats": [...]
+}
+👉 Prevents hallucination and improves trustworthiness
+
+⸻
+
+4️⃣ LangGraph Workflow (Agent Design)
+
+Instead of a single LLM call:
+	•	Multi-step workflow:
+	•	data loading
+	•	profiling
+	•	context construction
+	•	retrieval
+	•	reasoning
+	•	Task routing:
+	•	Q&A
+	•	executive summary
+
+👉 More controllable, explainable, and extensible
+
+📊 Features
+	•	📂 Upload CSV datasets
+	•	🔍 Automatic schema & data profiling
+	•	📉 Missing value analysis
+	•	📊 Numeric & categorical summaries
+	•	📈 Auto-generated charts
+	•	💬 Natural language Q&A
+	•	🧠 RAG-based reasoning
+	•	📄 Executive summary for stakeholders
+
+🧪 RAG vs Full Context (Design Insight)
+
+This project explicitly compares:
+Approach
+Problem
+Full context input
+Token limit, noisy signals
+RAG retrieval
+Focused, scalable, explainable
+
+👉 RAG improves:
+	•	answer relevance
+	•	consistency
+	•	interpretability
+
+🛠️ Tech Stack
+
+Backend
+	•	Python
+	•	FastAPI
+	•	LangGraph
+	•	Pandas
+
+LLM & RAG
+	•	OpenAI API
+	•	Embeddings
+	•	Vector Store
+	•	Retrieval pipeline
+
+Frontend
+	•	Streamlit
+
+Data
+	•	CSV-based tabular datasets
+
+⚡ How to run
+# install dependencies
+pip install -r requirements.txt
+
+# run backend
+uvicorn backend.app.main:app --reload
+
+# run frontend
+streamlit run frontend/app.py
+
+🎯 Example Use Case
+Using the Diabetes dataset:
+	•	Upload dataset
+	•	Auto-generate statistics
+	•	Ask:
+	•	“Which features are most related to diabetes?”
+	•	“Are there missing values?”
+	•	Get:
+	•	structured answers
+	•	supporting evidence
+	•	caveats
+
+📌 Future Improvements
+	•	Adaptive chunking strategies
+	•	Dynamic grounding evidence selection
+	•	Evaluation pipeline (RAG vs baseline)
+	•	Multi-dataset support
+	•	Caching & performance optimization
+
+👨‍💻 Author
+
+Li Zheng
+MSc Applied Artificial Intelligence @ University of Warwick
