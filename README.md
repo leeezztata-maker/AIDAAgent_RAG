@@ -1,6 +1,6 @@
 # 🧠 AI Data Analysis Agent (RAG + LangGraph)
 
-A portfolio-grade AI application that transforms raw tabular data into **structured insights, grounded answers, and executive summaries** using a combination of **EDA + RAG + Agent workflow orchestration**.
+A portfolio-grade AI application that transforms raw tabular data into **structured insights, grounded answers, and executive summaries** using a combination of **EDA + RAG + agent workflow orchestration**.
 
 ---
 
@@ -8,26 +8,27 @@ A portfolio-grade AI application that transforms raw tabular data into **structu
 
 Unlike typical LLM demos, this project:
 
-- ✅ Uses **deterministic data profiling (Pandas)** instead of raw text input  
-- ✅ Implements a **LangGraph-based agent workflow**, not a single prompt chain  
-- ✅ Applies **RAG (Retrieval-Augmented Generation)** to handle large datasets  
-- ✅ Enforces **grounded reasoning** (no unsupported claims)  
-- ✅ Bridges **data analysis + LLM reasoning + product experience**
+- Uses **deterministic data profiling (Pandas)** instead of raw text input
+- Implements a **LangGraph-based agent workflow**, not a single prompt chain
+- Applies **RAG (Retrieval-Augmented Generation)** to handle large datasets
+- Enforces **grounded reasoning** to reduce hallucination
+- Bridges **data analysis, LLM reasoning, and product experience**
 
-👉 This is not a chatbot — it is a **data analysis copilot**
+This is not a chatbot — it is a **data analysis copilot**.
 
 ---
 
 ## 🎯 Problem it solves
 
-Analyzing CSV datasets typically requires:
-- SQL / Pandas knowledge  
-- manual exploration  
-- interpreting charts  
+Analyzing CSV datasets usually requires:
+
+- SQL or Pandas knowledge
+- manual exploration
+- chart interpretation
 
 This project enables:
 
-👉 Upload data → Ask questions → Get structured insights
+**Upload data → Ask questions → Get structured insights**
 
 ---
 
@@ -35,179 +36,207 @@ This project enables:
 
 ### Core Components
 
-- **FastAPI** → Backend API & orchestration  
-- **Pandas** → Deterministic data profiling (EDA)  
-- **LangGraph** → Agent workflow coordination  
-- **OpenAI API** → Reasoning + summarization  
-- **Streamlit** → Demo UI  
+- FastAPI — backend API and orchestration  
+- Pandas — deterministic data profiling (EDA)  
+- LangGraph — agent workflow coordination  
+- OpenAI API — reasoning and summarization  
+- Streamlit — demo UI  
 
 ---
 
-### 🔁 Agent Workflow (LangGraph)
-START
-↓
-Load Dataset
-↓
-Build Profile (EDA)
-↓
-Generate Semantic Context
-↓
-Retrieve Relevant Context (RAG)
-↓
-Route Task
-├── Question Answering
-└── Executive Summary
-↓
-END
+### 🔁 Agent Workflow
+
+START  
+↓  
+Load Dataset  
+↓  
+Build Profile (EDA)  
+↓  
+Generate Semantic Context  
+↓  
+Retrieve Relevant Context (RAG)  
+↓  
+Route Task  
+→ Question Answering  
+→ Executive Summary  
+↓  
+END  
 
 ---
 
 ## 🧩 Key Technical Design
 
-### 1️⃣ Structured Data → Semantic Knowledge (RAG)
+### 1. Structured Data → Semantic Knowledge
 
 Instead of feeding raw tables into the LLM:
 
-- Convert:
-  - numeric summaries → text insights  
-  - categorical distributions → semantic chunks  
-  - missing values → data quality signals  
+- numeric summaries → text insights  
+- categorical distributions → semantic chunks  
+- missing values → data quality signals  
 
-- Store as:
-  - embeddings  
-  - vectorized knowledge chunks  
+Then:
+- convert to embeddings  
+- store in vector database  
 
-👉 Enables scalable reasoning on large datasets
+This enables scalable reasoning on large datasets.
 
 ---
 
-### 2️⃣ Retrieval-Augmented Generation (RAG)
+### 2. Retrieval-Augmented Generation (RAG)
 
 At query time:
 
-- Embed user question  
-- Retrieve **top-k relevant data chunks**  
-- Construct **focused context window**  
+- embed user question  
+- retrieve top-k relevant chunks  
+- construct focused context  
 
-👉 Solves:
-- context window limitation  
+This solves:
+
+- context window limits  
 - noisy full-table input  
 - long-column reasoning issues  
 
 ---
 
-### 3️⃣ Grounded Answer Generation
+### 3. Grounded Answer Generation
 
-The model is explicitly constrained:
+The model is constrained to answer only from:
 
-- Only answer from:
-  - schema  
-  - statistics  
-  - missing values  
-  - retrieved context  
+- schema  
+- statistics  
+- missing values  
+- retrieved context  
 
-- Must return:
+Output format:
 
-```json
-{
-  "answer": "...",
-  "supporting_points": [...],
-  "caveats": [...]
-}
-👉 Prevents hallucination and improves trustworthiness
+- answer  
+- supporting_points  
+- caveats  
 
-⸻
+This reduces hallucination and improves trust.
 
-4️⃣ LangGraph Workflow (Agent Design)
+---
+
+### 4. LangGraph Workflow
 
 Instead of a single LLM call:
-	•	Multi-step workflow:
-	•	data loading
-	•	profiling
-	•	context construction
-	•	retrieval
-	•	reasoning
-	•	Task routing:
-	•	Q&A
-	•	executive summary
 
-👉 More controllable, explainable, and extensible
+- multi-step workflow:
+  - data loading  
+  - profiling  
+  - context construction  
+  - retrieval  
+  - reasoning  
 
-📊 Features
-	•	📂 Upload CSV datasets
-	•	🔍 Automatic schema & data profiling
-	•	📉 Missing value analysis
-	•	📊 Numeric & categorical summaries
-	•	📈 Auto-generated charts
-	•	💬 Natural language Q&A
-	•	🧠 RAG-based reasoning
-	•	📄 Executive summary for stakeholders
+- supports task routing:
+  - Q&A  
+  - executive summary  
 
-🧪 RAG vs Full Context (Design Insight)
+This improves control and explainability.
 
-This project explicitly compares:
-Approach
-Problem
-Full context input
-Token limit, noisy signals
-RAG retrieval
-Focused, scalable, explainable
+---
 
-👉 RAG improves:
-	•	answer relevance
-	•	consistency
-	•	interpretability
+## 📊 Features
 
-🛠️ Tech Stack
+- Upload CSV datasets  
+- Automatic schema & profiling  
+- Missing value analysis  
+- Numeric & categorical summaries  
+- Auto-generated charts  
+- Natural language Q&A  
+- RAG-based reasoning  
+- Executive summaries  
 
-Backend
-	•	Python
-	•	FastAPI
-	•	LangGraph
-	•	Pandas
+---
 
-LLM & RAG
-	•	OpenAI API
-	•	Embeddings
-	•	Vector Store
-	•	Retrieval pipeline
+## 🧪 RAG vs Full Context
 
-Frontend
-	•	Streamlit
+| Approach | Limitation |
+|----------|-----------|
+| Full context | Token limit, noisy |
+| RAG | Requires chunking design |
 
-Data
-	•	CSV-based tabular datasets
+RAG improves:
 
-⚡ How to run
-# install dependencies
+- relevance  
+- consistency  
+- interpretability  
+
+---
+
+## 🛠️ Tech Stack
+
+### Backend
+- Python  
+- FastAPI  
+- LangGraph  
+- Pandas  
+
+### LLM & RAG
+- OpenAI API  
+- Embeddings  
+- Vector Store  
+
+### Frontend
+- Streamlit  
+
+---
+
+## ⚡ How to Run
+
+Install dependencies:
+
 pip install -r requirements.txt
 
-# run backend
+Run backend:
+
 uvicorn backend.app.main:app --reload
 
-# run frontend
+Run frontend:
+
 streamlit run frontend/app.py
 
-🎯 Example Use Case
-Using the Diabetes dataset:
-	•	Upload dataset
-	•	Auto-generate statistics
-	•	Ask:
-	•	“Which features are most related to diabetes?”
-	•	“Are there missing values?”
-	•	Get:
-	•	structured answers
-	•	supporting evidence
-	•	caveats
+---
 
-📌 Future Improvements
-	•	Adaptive chunking strategies
-	•	Dynamic grounding evidence selection
-	•	Evaluation pipeline (RAG vs baseline)
-	•	Multi-dataset support
-	•	Caching & performance optimization
+## 🎯 Example Use Case
 
-👨‍💻 Author
+Using a healthcare dataset:
 
-Li Zheng
-MSc Applied Artificial Intelligence @ University of Warwick
+- upload data  
+- auto-generate statistics  
+- ask:
+  - "Which features are important?"  
+  - "Are there missing values?"  
+
+System returns:
+
+- structured answers  
+- supporting evidence  
+- caveats  
+
+---
+
+## 🔍 What Interviewers Can Explore
+
+- Chunking strategy for structured data  
+- Why RAG instead of full context  
+- How hallucination is reduced  
+- LangGraph vs simple chain  
+- Evaluation of answer quality  
+
+---
+
+## 📌 Future Improvements
+
+- adaptive chunking  
+- dynamic grounding  
+- evaluation pipeline  
+- multi-dataset support  
+- caching  
+
+---
+
+## 👨‍💻 Author
+
+Li Zheng  
+MSc Applied Artificial Intelligence, University of Warwick
